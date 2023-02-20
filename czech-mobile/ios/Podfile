@@ -1,0 +1,42 @@
+require_relative '../node_modules/react-native/scripts/react_native_pods'
+require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+
+platform :ios, '10.0'
+
+target 'czechMobile' do
+  config = use_native_modules!
+
+  use_react_native!(:path => config["reactNativePath"])
+  rn_maps_path = '../node_modules/react-native-maps'
+  pod 'react-native-google-maps', :path => rn_maps_path
+  pod 'GoogleMaps'
+  pod 'Google-Maps-iOS-Utils'
+
+  # pod 'react-native-background-timer', :path => '../node_modules/react-native-background-timer'
+
+  target 'czechMobileTests' do
+    inherit! :complete
+    # Pods for testing
+  end
+
+  # Enables Flipper.
+  #
+  # Note that if you have use_frameworks! enabled, Flipper will not work and
+  # you should disable these next few lines.
+  use_flipper!({ 'Flipper-Folly' => '2.6.7', 'Flipper-RSocket' => '1.4.3' , 'Flipper' => '0.88.0'  })
+  post_install do |installer|
+  pod 'GoogleSignIn'
+
+    flipper_post_install(installer)
+  end
+end
+
+target 'czechMobile-tvOS' do
+  # Pods for czechMobile-tvOS
+
+  target 'czechMobile-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+end
+

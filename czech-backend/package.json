@@ -1,0 +1,47 @@
+{
+  "name": "czech-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "build": "prisma migrate dev && npx prisma generate",
+    "migrate": "prisma migrate dev",
+    "paljs": "node generate.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ludum-devo/czech-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ludum-devo/czech-backend/issues"
+  },
+  "homepage": "https://github.com/ludum-devo/czech-backend#readme",
+  "dependencies": {
+    "@graphql-tools/merge": "^6.2.7",
+    "@paljs/generator": "^2.13.0",
+    "@paljs/plugins": "^2.13.0",
+    "@paljs/schema": "^2.13.0",
+    "@prisma/client": "^2.20.1",
+    "apollo-server": "^2.22.2",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "firebase-admin": "^9.5.0",
+    "graphql": "^15.5.0",
+    "graphql-middleware": "^6.0.7",
+    "graphql-shield": "^7.5.0",
+    "graphql-tag": "^2.11.0",
+    "jsonwebtoken": "^8.5.1",
+    "luxon": "^1.26.0",
+    "shortid": "^2.2.16"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7",
+    "prisma": "^2.20.1"
+  }
+}

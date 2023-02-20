@@ -1,0 +1,120 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model Category {
+    id         String     @id @default(cuid())
+    createdAt  DateTime   @default(now())
+    updatedAt  DateTime   @updatedAt
+    name       String     @unique
+    iconFamily String?
+    icon       String?
+    color      String?
+    pricing    Price[]
+    vacations  Vacation[]
+}
+
+model Price {
+    id         String      @id @default(cuid())
+    category   Category    @relation(fields: [categoryId], references: [id])
+    categoryId String
+    type       PriceLeague
+    price      Int
+}
+
+model Vacation {
+    id         String       @id @default(cuid())
+    createdAt  DateTime     @default(now())
+    updatedAt  DateTime     @updatedAt
+    visible    Boolean      @default(true)
+    name       String
+    user       User         @relation(fields: [userId], references: [id])
+    userId     String
+    category   Category     @relation(fields: [categoryId], references: [id])
+    categoryId String
+    order      Order[]
+    league     PriceLeague  @default(VOID)
+    OMR        Int?          @default(80)
+    description String?
+    location   Json
+}
+
+model User {
+    id         String     @id @default(cuid())
+    visible    Boolean    @default(true)
+    createdAt  DateTime   @default(now())
+    updatedAt  DateTime   @updatedAt
+    name       String
+    surname    String
+    phone      String?
+    email      String?
+    forignKey  String     @unique
+    image      String?
+    vacation   Vacation?
+    feedbacks  Feedback[]
+    order      Order[]
+    address    String?
+    role       RoleEnum   @default(user)
+    passport   String?
+    selfie     String?
+}
+
+model Order {
+    id           String         @id @default(cuid())
+    visible      Boolean        @default(true)
+    createdAt    DateTime       @default(now())
+    updatedAt    DateTime       @updatedAt
+    address      String
+    startTime    DateTime       @default(now())
+    endTime      DateTime?
+    vacation     Vacation?      @relation(fields: [vacationId], references: [id])
+    vacationId   String?
+    user         User           @relation(fields: [userId], references: [id])
+    userId       String
+    categoryName String
+    status       OrderStatus    @default(AWAITING)
+    duration     String          @default("1")
+}
+
+model Feedback {
+    id        String   @id @default(cuid())
+    visible   Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    value     Float    @default(0)
+    comment   String   @default("")
+    user      User     @relation(fields: [userId], references: [id])
+    userId    String
+    userNanimatelName String?
+    userNanimatelImage String?
+}
+
+enum PriceLeague {
+    BLOCKED
+    VOID
+    BRONZE
+    SILVER
+    GOLD
+    DIAMOND
+    DEFAULT
+}
+
+enum RoleEnum {
+    user
+    admin
+}
+
+enum OrderStatus {
+    COMPLETE
+    IN_PROGRESS
+    CANCELED
+    AWAITING
+}

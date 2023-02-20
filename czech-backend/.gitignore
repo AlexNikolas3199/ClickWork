@@ -1,0 +1,11 @@
+.idea
+.graphqlconfig
+.env
+.vscode
+node_modules
+/data
+/prisma/migrations
+/src
+/public/*
+/schema.graphql
+package-lock.json
